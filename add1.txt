@@ -1,0 +1,32 @@
+                BYTE  sum   =   0
+                BYTE  num   =   6
+                LOADB A sum		#和
+		LOADI B 1		#当前数字
+		LOADI C 1		#递增值
+		LOADB E num
+loop: 		ADD A A B
+		ADD B B C
+		LTE B E
+		CJMP loop
+		PUSH A
+		CALL prnt             # 调用子程序prnt
+		HLT                  # 终止程序运行
+
+                # 输出一个整数
+prnt:		POP A
+		LOADI B 10		#递缩值
+		LOADI C 1		#mask
+loop1:		MUL C B C
+		LTE C A                 # c<=A               
+		CJMP loop1
+		LOADI F 1		#退出值
+loop2:		DIV C C B
+		DIV D A C
+		MUL E D C
+		SUB A A E
+		ADDI D 48
+		OUT D 15
+		EQU C F
+		NOTC
+		CJMP loop2
+		RET
